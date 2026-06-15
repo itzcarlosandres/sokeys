@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Accept DATABASE_URL from build args (EasyPanel passes env vars as build args)
 ARG DATABASE_URL
-ENV DATABASE_URL=${DATABASE_URL}
+ENV DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@localhost:5432/sokeys?schema=public}
 
 # Copy package files
 COPY package*.json ./
