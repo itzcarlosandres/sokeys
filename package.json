@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "start:migrate": "npx prisma migrate deploy && npm start",
-    "postinstall": "npx prisma generate",
+    "start:migrate": "npx prisma db push --accept-data-loss && npm start",
     "lint": "eslint"
   },
   "dependencies": {

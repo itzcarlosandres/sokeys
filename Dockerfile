@@ -9,7 +9,7 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies (postinstall will generate Prisma client)
+# Install dependencies (no postinstall)
 RUN npm ci
 
 # Copy source code
@@ -31,10 +31,10 @@ ENV NODE_ENV=production
 # Copy package files
 COPY package*.json ./
 
-# Install production dependencies (prisma is now in dependencies)
+# Install production dependencies (no postinstall now)
 RUN npm ci --only=production
 
-# Copy built app and prisma files
+# Copy built app and prisma files from base
 COPY --from=base /app/.next ./.next
 COPY --from=base /app/public ./public
 COPY --from=base /app/prisma ./prisma
