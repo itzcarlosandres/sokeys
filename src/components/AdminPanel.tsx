@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from 'react';
+import Image from 'next/image';
 import { createProduct, addKeysToProduct, updateProduct, deleteProduct, deleteKey, adminLogin, adminVerify, adminLogout, adminRegister, toggleProductField } from '@/app/actions';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -681,7 +682,7 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
                               reader.readAsDataURL(file);
                             }
                           }} className="w-full text-gray-400 text-xs file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#007cff]/10 file:text-[#007cff] hover:file:bg-[#007cff]/20 cursor-pointer" />
-                          {fi && <div className="mt-2"><img src={fi} alt="preview" className="h-12 rounded-lg object-cover border border-white/[0.06]" /></div>}
+                          {fi && <div className="relative mt-2 w-20 h-12 rounded-lg overflow-hidden border border-white/[0.06]"><Image src={fi} alt="preview" fill sizes="80px" className="object-cover" /></div>}
                         </div>
                         <input type="text" value={fbi} onChange={e => setFbi(e.target.value)} placeholder="URL de banner (opcional)"
                           className="bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-[#007cff]/40 placeholder:text-gray-700" />
@@ -803,8 +804,8 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
                             <tr key={p.id} className="text-sm transition-colors hover:bg-white/[0.02]">
                               <td className="py-3.5 px-5">
                                 <div className="flex items-center gap-3">
-                                  <div className="w-8 h-8 rounded-lg bg-[#04060a] border border-white/[0.06] overflow-hidden shrink-0">
-                                    <img src={p.image} alt="" className="w-full h-full object-cover" onError={e => (e.target as HTMLImageElement).style.display = 'none'} />
+                                  <div className="relative w-8 h-8 rounded-lg bg-[#04060a] border border-white/[0.06] overflow-hidden shrink-0">
+                                    <Image src={p.image} alt="" fill sizes="32px" className="object-cover" />
                                   </div>
                                   <div>
                                     <p className="text-sm font-medium text-gray-200 truncate max-w-[200px]">{p.title}</p>
@@ -896,7 +897,7 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
                           <div className="relative bg-[#0a0e1a] border border-white/[0.04] rounded-xl overflow-hidden hover:border-white/[0.08] transition-all duration-300 flex flex-col h-full">
                             {/* Image */}
                             <div className="relative h-36 bg-[#04060a] border-b border-white/[0.04] overflow-hidden">
-                              <img src={p.image} alt={p.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" onError={e => (e.target as HTMLImageElement).style.display = 'none'} />
+                              <Image src={p.image} alt={p.title} fill sizes="(max-width: 640px) 100vw, 300px" className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e1a] via-transparent to-transparent" />
                               {/* Toggle Badges */}
                               <div className="absolute top-2.5 left-2.5 flex gap-1.5 flex-wrap">
@@ -1074,8 +1075,8 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
                           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                             {filtered.map(p => (
                               <div key={p.id} className="flex items-center gap-3 p-3 bg-[#04060a] border border-white/[0.04] rounded-xl hover:border-white/[0.08] transition-all group">
-                                <div className="w-10 h-10 rounded-lg overflow-hidden border border-white/[0.06] shrink-0">
-                                  <img src={p.image} alt="" className="w-full h-full object-cover" onError={e => (e.target as HTMLImageElement).style.display = 'none'} />
+                                <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/[0.06] shrink-0">
+                                  <Image src={p.image} alt="" fill sizes="40px" className="object-cover" />
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <p className="text-sm font-medium text-gray-200 truncate">{p.title}</p>
@@ -1651,8 +1652,8 @@ function SectionBlock({ title, subtitle, color, icon, products, field, toggling,
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {sectionProducts.map(p => (
               <div key={p.id} className="flex items-center gap-3 p-3 bg-[#04060a] border border-white/[0.04] rounded-xl hover:border-white/[0.08] transition-all">
-                <div className="w-10 h-10 rounded-lg overflow-hidden border border-white/[0.06] shrink-0">
-                  <img src={p.image} alt="" className="w-full h-full object-cover" onError={e => (e.target as HTMLImageElement).style.display = 'none'} />
+                <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/[0.06] shrink-0">
+                  <Image src={p.image} alt="" fill sizes="40px" className="object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-200 truncate">{p.title}</p>

@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import ProductCard from '@/components/ProductCard';
 import FilterSelect from '@/components/FilterSelect';
 import SoftwareBox3D from '@/components/SoftwareBox3D';
+import Image from 'next/image';
 import {
   ShieldCheck, Zap, Headphones, Globe, ArrowRight, X, Sparkles, CheckCircle2,
   Star, Hexagon, TrendingUp, Clock, Search, CreditCard, RefreshCw, MessageSquare,
@@ -220,8 +221,8 @@ export default async function Home({ searchParams }: PageProps) {
                   {hotProducts.map(p => (
                     <Link key={p.id} href={`/product/${p.slug}`}
                       className="group flex items-center gap-4 bg-[#0f1014] border border-white/[0.04] hover:border-white/[0.08] rounded-xl p-3 transition-all duration-300 hover:bg-[#0f1014]/80">
-                      <div className="w-14 h-14 rounded-lg overflow-hidden border border-white/[0.06] shrink-0 bg-[#060608]">
-                        <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
+                      <div className="relative w-14 h-14 rounded-lg overflow-hidden border border-white/[0.06] shrink-0 bg-[#060608]">
+                        <Image src={p.image} alt={p.title} fill sizes="56px" className="object-cover" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">

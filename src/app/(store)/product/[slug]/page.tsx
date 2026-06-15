@@ -2,6 +2,7 @@ import React from 'react';
 import { db } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import ProductActions from '@/components/ProductActions';
 import { ArrowLeft, Globe, HelpCircle, ShieldCheck, Star, Terminal, Zap } from 'lucide-react';
 
@@ -104,10 +105,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
       
       {/* Dynamic blurred hero backdrop */}
       <div className="relative w-full h-[250px] sm:h-[350px] overflow-hidden border-b border-[#1e2535]">
-        <img
+        <Image
           src={product.bannerImage || product.image}
           alt={product.title}
-          className="absolute inset-0 w-full h-full object-cover filter blur-[35px] scale-110 opacity-40"
+          fill
+          sizes="100vw"
+          className="object-cover filter blur-[35px] scale-110 opacity-40"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#080a0f] via-transparent to-black/60" />
         
@@ -133,11 +137,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {/* Main Cover Card */}
             <div className="bg-[#11141d] border border-[#1e2535] p-5 sm:p-6 rounded-2xl shadow-xl flex flex-col sm:flex-row gap-6">
               {/* Box Art image */}
-              <div className="w-full sm:w-[200px] aspect-[14/10] sm:aspect-[3/4] rounded-xl overflow-hidden border border-[#1e2535] shrink-0 bg-[#080a0f]">
-                <img
+              <div className="relative w-full sm:w-[200px] aspect-[14/10] sm:aspect-[3/4] rounded-xl overflow-hidden border border-[#1e2535] shrink-0 bg-[#080a0f]">
+                <Image
                   src={product.image}
                   alt={product.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 640px) 100vw, 200px"
+                  className="object-cover"
+                  priority
                 />
               </div>
 

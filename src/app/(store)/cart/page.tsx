@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
@@ -125,8 +126,8 @@ export default function CartPage() {
                 className="bg-[#11141d] border border-[#1e2535] rounded-2xl p-4 sm:p-5 flex gap-4 sm:gap-5 items-center justify-between shadow-md hover:border-accent-purple/20 transition-all duration-200"
               >
                 {/* Thumb */}
-                <div className="w-16 sm:w-20 aspect-[14/10] sm:aspect-[4/3] bg-[#080a0f] rounded-lg overflow-hidden shrink-0 border border-gray-800">
-                  <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                <div className="relative w-16 sm:w-20 aspect-[14/10] sm:aspect-[4/3] bg-[#080a0f] rounded-lg overflow-hidden shrink-0 border border-gray-800">
+                  <Image src={item.image} alt={item.title} fill sizes="(max-width: 640px) 64px, 80px" className="object-cover" />
                 </div>
 
                 {/* Info and Quantities */}

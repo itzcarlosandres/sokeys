@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
 import { ShoppingCart, Globe, Star, Zap, Trophy, ShieldCheck, Clock, Award, CheckCircle2, Tag, Monitor, HardDrive, Shield, Cpu, Database, Code, Bug, Gamepad2, Server, Key } from 'lucide-react';
 import SoftwareBox3D from './SoftwareBox3D';

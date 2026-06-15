@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
 
 interface SoftwareBox3DProps {
   image: string;
@@ -43,11 +44,14 @@ export default function SoftwareBox3D({ image, title, platform, className = "" }
             backfaceVisibility: "hidden"
           }}
         >
-          <img 
+          <Image 
             src={image} 
             alt={title} 
-            className="w-full h-full object-cover"
+            fill
+            sizes="(max-width: 768px) 150px, 200px"
+            className="object-cover"
             loading="lazy"
+            unoptimized={false}
           />
           {/* Subtle reflection shine overlay */}
           <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 opacity-60 group-hover/box:translate-x-full transition-transform duration-1000 ease-out" />
