@@ -2,6 +2,8 @@ import React from 'react';
 import { db } from '@/lib/db';
 import AdminPanel from '@/components/AdminPanel';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminPage() {
   const totalProducts = await db.product.count();
   const activeKeys = await db.key.count({ where: { isSold: false } });

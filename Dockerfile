@@ -6,6 +6,10 @@ RUN apk add --no-cache openssl
 
 WORKDIR /app
 
+# Accept DATABASE_URL from build args (EasyPanel passes env vars as build args)
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
+
 # Copy package files
 COPY package*.json ./
 
