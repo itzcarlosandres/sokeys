@@ -1,0 +1,160 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String             @id @default(uuid())
+  name            String
+  email           String             @unique
+  passwordHash    String
+  salt            String
+  points          Int                @default(0)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  orders          Order[]
+  pointTxns       PointTransaction[]
+}
+
+model PointTransaction {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount    Int
+  type      String   // 'earned' | 'redeemed' | 'expired'
+  orderId   String?
+  order     Order?   @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  note      String?
+  createdAt DateTime @default(now())
+}
+
+model Coupon {
+  id            String    @id @default(uuid())
+  code          String    @unique
+  discountType  String    // 'percent' | 'fixed'
+  discountValue Float
+  minPoints     Int
+  isRedeemed    Boolean   @default(false)
+  userId        String?
+  expiresAt     DateTime?
+  createdAt     DateTime  @default(now())
+}
+
+model Platform {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  icon      String
+  color     String
+  bgColor   String
+  products  Product[]
+  createdAt DateTime  @default(now())
+}
+
+model Badge {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  icon        String
+  color       String
+  bgColor     String
+  borderColor String
+  products    Product[] @relation("ProductBadges")
+  createdAt   DateTime  @default(now())
+}
+
+model Admin {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  passwordHash String
+  salt         String
+  createdAt    DateTime @default(now())
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  userType  String
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id            String      @id @default(uuid())
+  title         String
+  slug          String      @unique
+  description   String
+  price         Float
+  originalPrice Float?
+  image         String
+  bannerImage   String?
+  platform      String
+  region        String
+  type          String
+  rating        Float       @default(4.8)
+  genre         String
+  sellerName    String      @default("FastKeys Official")
+  isFeatured    Boolean     @default(false)
+  isHot         Boolean     @default(false)
+  isRecent      Boolean     @default(false)
+  isPopular     Boolean     @default(false)
+  isBestSeller  Boolean     @default(false)
+  isOnSale      Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  keys          Key[]
+  orderItems    OrderItem[]
+  platformId    String?
+  platformObj   Platform?   @relation(fields: [platformId], references: [id])
+  badges        Badge[]     @relation("ProductBadges")
+}
+
+model Key {
+  id          String      @id @default(uuid())
+  code        String
+  isSold      Boolean     @default(false)
+  productId   String
+  product     Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  orderItemId String?
+  orderItem   OrderItem?  @relation(fields: [orderItemId], references: [id], onDelete: SetNull)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Order {
+  id            String          @id @default(uuid())
+  customerEmail String
+  customerName  String
+  total         Float
+  status        String          @default("COMPLETED")
+  userId        String?
+  user          User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  items         OrderItem[]
+  pointTxns     PointTransaction[]
+}
+
+model OrderItem {
+  id        String    @id @default(uuid())
+  orderId   String
+  order     Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product   @relation(fields: [productId], references: [id])
+  price     Float
+  quantity  Int
+  keys      Key[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model SiteConfig {
+  id                String   @id @default("default")
+  homeColumns       Int      @default(4)
+  homeFeaturedCount Int      @default(8)
+  catalogColumns    Int      @default(4)
+  pointsPerDollar   Int      @default(10)
+  updatedAt         DateTime @updatedAt
+}
