@@ -45,4 +45,4 @@ COPY --from=base /app/node_modules/@prisma ./node_modules/@prisma
 EXPOSE 3000
 
 # Run migrations and start app
-CMD ["sh", "-c", "npx prisma migrate deploy && npm start"]
+CMD ["sh", "-c", "npx prisma db push --accept-data-loss && npm start"]
