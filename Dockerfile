@@ -1,4 +1,4 @@
-# Dockerfile for Dokploy deployment
+# Dockerfile for EasyPanel / Dokploy deployment
 FROM node:20-alpine AS base
 
 # Install dependencies for Prisma
@@ -9,13 +9,14 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies and generate Prisma client (postinstall)
+# Install dependencies (postinstall will generate Prisma client)
 RUN npm ci
 
 # Copy source code
 COPY . .
 
-# Build Next.js app
+# Generate Prisma client and build Next.js app
+RUN npx prisma generate
 RUN npm run build
 
 # Production stage
@@ -30,7 +31,7 @@ ENV NODE_ENV=production
 # Copy package files
 COPY package*.json ./
 
-# Install only production dependencies
+# Install production dependencies (prisma is now in dependencies)
 RUN npm ci --only=production
 
 # Copy built app and prisma files
