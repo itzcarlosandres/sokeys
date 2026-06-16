@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import SafeImage from '@/components/SafeImage';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
@@ -127,7 +127,7 @@ export default function CartPage() {
               >
                 {/* Thumb */}
                 <div className="relative w-16 sm:w-20 aspect-[14/10] sm:aspect-[4/3] bg-[#080a0f] rounded-lg overflow-hidden shrink-0 border border-gray-800">
-                  <Image src={item.image} alt={item.title} fill sizes="(max-width: 640px) 64px, 80px" className="object-cover" />
+                  <SafeImage src={item.image} alt={item.title} fill sizes="(max-width: 640px) 64px, 80px" className="object-cover" />
                 </div>
 
                 {/* Info and Quantities */}

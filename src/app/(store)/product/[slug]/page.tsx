@@ -2,7 +2,7 @@ import React from 'react';
 import { db } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
+import SafeImage from '@/components/SafeImage';
 import ProductActions from '@/components/ProductActions';
 import { ArrowLeft, Globe, HelpCircle, ShieldCheck, Star, Terminal, Zap } from 'lucide-react';
 
@@ -105,7 +105,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       
       {/* Dynamic blurred hero backdrop */}
       <div className="relative w-full h-[250px] sm:h-[350px] overflow-hidden border-b border-[#1e2535]">
-        <Image
+        <SafeImage
           src={product.bannerImage || product.image}
           alt={product.title}
           fill
@@ -138,7 +138,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <div className="bg-[#11141d] border border-[#1e2535] p-5 sm:p-6 rounded-2xl shadow-xl flex flex-col sm:flex-row gap-6">
               {/* Box Art image */}
               <div className="relative w-full sm:w-[200px] aspect-[14/10] sm:aspect-[3/4] rounded-xl overflow-hidden border border-[#1e2535] shrink-0 bg-[#080a0f]">
-                <Image
+                <SafeImage
                   src={product.image}
                   alt={product.title}
                   fill

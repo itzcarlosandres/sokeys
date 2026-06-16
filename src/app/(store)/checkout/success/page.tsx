@@ -2,7 +2,7 @@ import React from 'react';
 import { db } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
+import SafeImage from '@/components/SafeImage';
 import KeyRevealer from '@/components/KeyRevealer';
 import { CheckCircle2, ShieldCheck, Gamepad2, ArrowRight, Printer, AlertCircle } from 'lucide-react';
 
@@ -82,7 +82,7 @@ export default async function CheckoutSuccessPage({ searchParams }: SuccessPageP
                 {/* Product details header inside the card */}
                 <div className="flex items-center gap-4">
                   <div className="relative w-14 sm:w-16 aspect-[4/3] rounded-lg overflow-hidden shrink-0 border border-gray-800 bg-[#080a0f]">
-                    <Image src={item.product.image} alt={item.product.title} fill sizes="(max-width: 640px) 56px, 64px" className="object-cover" />
+                    <SafeImage src={item.product.image} alt={item.product.title} fill sizes="(max-width: 640px) 56px, 64px" className="object-cover" />
                   </div>
                   <div className="flex-grow min-w-0">
                     <span className="text-[10px] text-accent-purple font-black uppercase tracking-wider">
