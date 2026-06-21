@@ -1,0 +1,14 @@
+
+> licencias@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.6:3000
+- Environments: .env
+✓ Ready in 517ms
+
+ GET / 200 in 979ms (next.js: 194ms, application-code: 785ms)
+ GET / 200 in 254ms (next.js: 5ms, application-code: 248ms)
+ GET / 200 in 219ms (next.js: 3ms, application-code: 217ms)
+[?25h
