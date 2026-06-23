@@ -54,7 +54,8 @@ export default async function Home({ searchParams }: PageProps) {
   const products = await db.product.findMany({ where, orderBy, include: { badges: true, platformObj: true } });
   const isDefault = !search && !platform && !region;
 
-  const config = await db.siteConfig.findUnique({ where: { id: 'default' } }) || { homeColumns: 4, homeFeaturedCount: 8, catalogColumns: 4 };
+  const config = await db.siteConfig.findUnique({ where: { id: 'default' } }) || { homeColumns: 4, homeFeaturedCount: 8, catalogColumns: 4, pointsPerDollar: 10 };
+  const pointsPerDollar = config.pointsPerDollar || 10;
 
   const [allProducts, recentProducts, popularProducts, bestSellerProducts, onSaleProducts, hotProducts] = isDefault ? await Promise.all([
     db.product.findMany({ take: 20, orderBy: { createdAt: 'desc' }, include: { badges: true, platformObj: true } }),
@@ -196,6 +197,7 @@ export default async function Home({ searchParams }: PageProps) {
                 link="/?sort=rating"
                 products={recentProducts}
                 cols={config.homeColumns}
+                pointsPerDollar={pointsPerDollar}
               />
             )}
 
@@ -374,7 +376,7 @@ export default async function Home({ searchParams }: PageProps) {
                 config.catalogColumns === 5 ? 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5' :
                 'grid-cols-2 sm:grid-cols-4 lg:grid-cols-6'
               } gap-4 sm:gap-5`}>
-                {products.map(p => <ProductCard key={p.id} {...p} />)}
+                {products.map(p => <ProductCard key={p.id} {...p} pointsPerDollar={pointsPerDollar} />)}
               </div>
             ) : (
               <div className="text-center py-16 bg-[#0a0e1a] rounded-xl border border-white/[0.04] flex flex-col items-center gap-4">
@@ -396,8 +398,8 @@ export default async function Home({ searchParams }: PageProps) {
   );
 }
 
-function Shelf({ title, subtitle, color, icon, link, products, cols }: {
-  title: string; subtitle?: string; color: string; icon?: React.ReactNode; link: string; products: any[]; cols: number;
+function Shelf({ title, subtitle, color, icon, link, products, cols, pointsPerDollar }: {
+  title: string; subtitle?: string; color: string; icon?: React.ReactNode; link: string; products: any[]; cols: number; pointsPerDollar?: number;
 }) {
   const gridColsMap: Record<number, string> = {
     2: 'grid-cols-2',
@@ -426,7 +428,7 @@ function Shelf({ title, subtitle, color, icon, link, products, cols }: {
         </Link>
       </div>
       <div className={`grid ${gridCols} gap-4 sm:gap-5`}>
-        {products.map(p => <ProductCard key={p.id} {...p} />)}
+        {products.map(p => <ProductCard key={p.id} {...p} pointsPerDollar={pointsPerDollar} />)}
       </div>
     </div>
   );

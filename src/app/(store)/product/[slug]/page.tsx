@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import SafeImage from '@/components/SafeImage';
 import ProductActions from '@/components/ProductActions';
-import { ArrowLeft, Globe, HelpCircle, ShieldCheck, Star, Terminal, Zap } from 'lucide-react';
+import { ArrowLeft, Globe, HelpCircle, ShieldCheck, Star, Terminal, Zap, Gift } from 'lucide-react';
 
 interface ProductPageProps {
   params: Promise<{
@@ -32,6 +32,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
   }
 
   const stockCount = product.keys.length;
+
+  // Get points per dollar from config
+  const config = await db.siteConfig.findUnique({ where: { id: 'default' } });
+  const pointsPerDollar = config?.pointsPerDollar || 10;
+  const pointsEarned = Math.floor(product.price * pointsPerDollar);
 
   // Activation Guide details based on platform
   const getActivationGuide = (platform: string) => {
@@ -231,6 +236,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
           {/* Right Side: Pricing & CTA actions column */}
           <div className="lg:col-span-4 lg:sticky lg:top-24">
             <ProductActions product={product} stockCount={stockCount} />
+
+            {/* Points badge */}
+            <div className="mt-4 p-4 bg-[#6c5ce7]/10 border border-[#6c5ce7]/30 rounded-2xl flex items-center gap-3 text-sm">
+              <Gift className="h-5 w-5 text-[#6c5ce7] shrink-0" />
+              <div className="flex flex-col gap-0.5">
+                <span className="font-bold text-white">Ganás {pointsEarned} puntos</span>
+                <p className="text-gray-400 text-xs leading-relaxed">
+                  Por esta compra recibirás {pointsEarned} puntos que podrás canjear por descuentos.
+                </p>
+              </div>
+            </div>
             
             {/* Fast safety tip */}
             <div className="mt-4 p-4 bg-accent-orange/5 border border-accent-orange/10 rounded-2xl flex items-start gap-3 text-xs">
