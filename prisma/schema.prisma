@@ -14,10 +14,12 @@ model User {
   passwordHash    String
   salt            String
   points          Int                @default(0)
+  creditBalance   Float              @default(0)
   createdAt       DateTime           @default(now())
   updatedAt       DateTime           @updatedAt
   orders          Order[]
   pointTxns       PointTransaction[]
+  credits         UserCredit[]
 }
 
 model PointTransaction {
@@ -135,6 +137,7 @@ model Order {
   updatedAt     DateTime        @updatedAt
   items         OrderItem[]
   pointTxns     PointTransaction[]
+  credits       UserCredit[]
 }
 
 model OrderItem {
@@ -150,11 +153,38 @@ model OrderItem {
   updatedAt DateTime  @updatedAt
 }
 
+model UserCredit {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount    Float
+  type      String   // 'earned' | 'used'
+  orderId   String?
+  order     Order?   @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  note      String?
+  createdAt DateTime @default(now())
+}
+
 model SiteConfig {
   id                String   @id @default("default")
+  // SEO
+  siteName          String   @default("PixelCodes")
+  siteDescription   String   @default("La tienda premium de activación de licencias digitales de software, antivirus y sistemas operativos más barata y segura.")
+  siteKeywords      String?
+  ogImageUrl        String?
+  siteUrl           String?
+  // Tienda
+  currencyCode      String   @default("USD")
+  currencySymbol    String   @default("$")
+  supportEmail      String?
+  logoUrl           String?
+  // Diseño Home
   homeColumns       Int      @default(4)
   homeFeaturedCount Int      @default(8)
   catalogColumns    Int      @default(4)
+  // Rewards
   pointsPerDollar   Int      @default(10)
+  cashbackEnabled   Boolean  @default(false)
+  cashbackPercent   Float    @default(0)
   updatedAt         DateTime @updatedAt
 }

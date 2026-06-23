@@ -8,6 +8,7 @@ import Link from 'next/link';
 import {
   LayoutDashboard, Package, Key, ShoppingCart, Users, User,
   LogOut, Plus, Edit3, Trash2, Search, X, ChevronDown, ChevronUp,
+  Menu, PanelLeftClose,
   Copy, ExternalLink, Loader2, CheckCircle2, AlertTriangle,
   ShieldAlert, Lock, Eye, EyeOff, DollarSign, Clock, TrendingUp,
   Mail, ListFilter, Sparkles, ChevronLeft, Hexagon, Star, Tag, Home, Trophy, Percent,
@@ -30,7 +31,7 @@ interface AdminPanelProps {
   topProducts: { productId: string; quantity: number; revenue: number; product: { title: string; slug: string; image: string } | null }[];
 }
 
-type TabId = 'dashboard' | 'products' | 'design' | 'platforms' | 'badges' | 'rewards' | 'keys' | 'orders' | 'customers';
+type TabId = 'dashboard' | 'products' | 'design' | 'platforms' | 'badges' | 'rewards' | 'keys' | 'orders' | 'customers' | 'settings';
 
 const NAV = [
   { id: 'dashboard' as TabId, label: 'Panel', subtitle: 'Visión general', icon: LayoutDashboard },
@@ -42,10 +43,11 @@ const NAV = [
   { id: 'keys' as TabId, label: 'Claves', subtitle: 'Licencias y códigos', icon: Key },
   { id: 'orders' as TabId, label: 'Pedidos', subtitle: 'Historial de ventas', icon: ShoppingCart },
   { id: 'customers' as TabId, label: 'Clientes', subtitle: 'Base de compradores', icon: Users },
+  { id: 'settings' as TabId, label: 'Configuración', subtitle: 'SEO, tienda y general', icon: Shield },
 ];
 
 const NAV_ICONS: Record<string, React.ElementType> = {
-  dashboard: LayoutDashboard, products: Package, design: Home, platforms: Monitor, badges: Award, rewards: Gift, keys: Key, orders: ShoppingCart, customers: Users,
+  dashboard: LayoutDashboard, products: Package, design: Home, platforms: Monitor, badges: Award, rewards: Gift, keys: Key, orders: ShoppingCart, customers: Users, settings: Shield,
 };
 
 export default function AdminPanel({ products, stats, orders, customers, allKeys, topProducts }: AdminPanelProps) {
@@ -61,6 +63,7 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const [tab, setTab] = useState<TabId>('dashboard');
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [feedback, setFeedback] = useState<{ success: boolean; message: string } | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -106,6 +109,20 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
   const [cfCode, setCfCode] = useState(''); const [cfType, setCfType] = useState('percent'); const [cfValue, setCfValue] = useState(''); const [cfPoints, setCfPoints] = useState(''); const [cfExpires, setCfExpires] = useState('');
   const [pointsPerDollar, setPointsPerDollar] = useState(10);
 
+  // Settings states
+  const [siteName, setSiteName] = useState('');
+  const [siteDescription, setSiteDescription] = useState('');
+  const [siteKeywords, setSiteKeywords] = useState('');
+  const [ogImageUrl, setOgImageUrl] = useState('');
+  const [siteUrl, setSiteUrl] = useState('');
+  const [currencyCode, setCurrencyCode] = useState('USD');
+  const [currencySymbol, setCurrencySymbol] = useState('$');
+  const [supportEmail, setSupportEmail] = useState('');
+  const [logoUrl, setLogoUrl] = useState('');
+  const [cashbackEnabled, setCashbackEnabled] = useState(false);
+  const [cashbackPercent, setCashbackPercent] = useState(0);
+  const [savingSettings, setSavingSettings] = useState(false);
+
   const fmtDate = (iso: string) => {
     const d = new Date(iso);
     return d.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
@@ -150,6 +167,28 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
         if (data.success && data.config) setPointsPerDollar(data.config.pointsPerDollar || 10);
       });
     }
+    if (tab === 'settings') {
+      fetch('/api/config').then(r => r.json()).then(data => {
+        if (data.success && data.config) {
+          const c = data.config;
+          setSiteName(c.siteName || '');
+          setSiteDescription(c.siteDescription || '');
+          setSiteKeywords(c.siteKeywords || '');
+          setOgImageUrl(c.ogImageUrl || '');
+          setSiteUrl(c.siteUrl || '');
+          setCurrencyCode(c.currencyCode || 'USD');
+          setCurrencySymbol(c.currencySymbol || '$');
+          setSupportEmail(c.supportEmail || '');
+          setLogoUrl(c.logoUrl || '');
+          setCashbackEnabled(c.cashbackEnabled || false);
+          setCashbackPercent(c.cashbackPercent || 0);
+          setHomeColumns(c.homeColumns || 4);
+          setHomeFeaturedCount(c.homeFeaturedCount || 8);
+          setCatalogColumns(c.catalogColumns || 4);
+          setPointsPerDollar(c.pointsPerDollar || 10);
+        }
+      });
+    }
   }, [tab]);
 
   const handleSaveDesign = async () => {
@@ -166,6 +205,27 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
       setFeedback({ success: false, message: data.error || 'Error al guardar.' });
     }
     setSavingDesign(false);
+  };
+
+  const handleSaveSettings = async () => {
+    setSavingSettings(true);
+    const res = await fetch('/api/config', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        siteName, siteDescription, siteKeywords, ogImageUrl, siteUrl,
+        currencyCode, currencySymbol, supportEmail, logoUrl,
+        cashbackEnabled, cashbackPercent,
+        pointsPerDollar, homeColumns, homeFeaturedCount, catalogColumns,
+      }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      setFeedback({ success: true, message: 'Configuración guardada correctamente.' });
+    } else {
+      setFeedback({ success: false, message: data.error || 'Error al guardar.' });
+    }
+    setSavingSettings(false);
   };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -360,8 +420,18 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
   return (
     <div className="flex min-h-screen bg-[#04060a]">
 
+      {/* Mobile overlay */}
+      {mobileSidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden"
+          onClick={() => setMobileSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className={`${sidebarCollapsed ? 'w-16' : 'w-60'} transition-all duration-300 flex flex-col bg-[#080c18] border-r border-white/[0.04] relative shrink-0`}>
+      <aside className={`${sidebarCollapsed ? 'w-16' : 'w-60'} fixed lg:sticky inset-y-0 left-0 z-50 lg:z-auto transition-transform duration-300 lg:transition-all flex flex-col bg-[#080c18] border-r border-white/[0.04] relative shrink-0 ${
+        mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      }`}>
         {/* Sidebar gradient accent */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#007cff]/[0.02] to-transparent pointer-events-none" />
 
@@ -377,8 +447,12 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
             </div>
           )}
           <button onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className="ml-auto text-gray-600 hover:text-gray-400 transition-colors cursor-pointer">
+            className="ml-auto hidden lg:block text-gray-600 hover:text-gray-400 transition-colors cursor-pointer">
             <ChevronLeft className={`h-4 w-4 transition-transform ${sidebarCollapsed ? 'rotate-180' : ''}`} />
+          </button>
+          <button onClick={() => setMobileSidebarOpen(false)}
+            className="ml-auto lg:hidden p-1.5 text-gray-500 hover:text-gray-200 hover:bg-white/[0.04] rounded-lg transition-colors cursor-pointer">
+            <X className="h-4 w-4" />
           </button>
         </div>
 
@@ -388,7 +462,7 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
             const active = tab === item.id;
             const Icon = NAV_ICONS[item.id];
             return (
-              <button key={item.id} onClick={() => setTab(item.id)}
+              <button key={item.id} onClick={() => { setTab(item.id); setMobileSidebarOpen(false); }}
                 className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer relative group ${
                   active
                     ? 'bg-gradient-to-r from-[#007cff]/10 to-transparent text-[#007cff]'
@@ -443,19 +517,24 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top header */}
-        <header className="h-16 flex items-center justify-between px-6 border-b border-white/[0.04] bg-[#080c18]/50 backdrop-blur-md">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2.5">
-              {React.createElement(NAV_ICONS[tab], { className: 'h-5 w-5 text-[#007cff]' })}
-              <h1 className="text-base font-semibold text-white">{NAV.find(n => n.id === tab)?.label}</h1>
+        <header className="h-16 flex items-center justify-between px-4 sm:px-6 border-b border-white/[0.04] bg-[#080c18]/50 backdrop-blur-md sticky top-0 z-30">
+          <div className="flex items-center gap-3 min-w-0">
+            {/* Mobile menu toggle */}
+            <button onClick={() => setMobileSidebarOpen(true)}
+              className="lg:hidden p-2 -ml-1 text-gray-400 hover:text-gray-200 hover:bg-white/[0.04] rounded-lg transition-colors cursor-pointer shrink-0">
+              <Menu className="h-5 w-5" />
+            </button>
+            <div className="flex items-center gap-2.5 min-w-0">
+              {React.createElement(NAV_ICONS[tab], { className: 'h-5 w-5 text-[#007cff] shrink-0' })}
+              <h1 className="text-base font-semibold text-white truncate">{NAV.find(n => n.id === tab)?.label}</h1>
             </div>
             {feedback && (
-              <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium ${
+              <div className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium ${
                 feedback.success ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/10' : 'bg-red-500/10 text-red-400 border border-red-500/10'
               }`}>
                 <span className={`w-1.5 h-1.5 rounded-full ${feedback.success ? 'bg-emerald-400' : 'bg-red-400'}`} />
-                {feedback.message}
-                <button onClick={() => setFeedback(null)} className="ml-1 opacity-50 hover:opacity-100 cursor-pointer"><X className="h-3 w-3" /></button>
+                <span className="truncate max-w-[160px]">{feedback.message}</span>
+                <button onClick={() => setFeedback(null)} className="ml-1 opacity-50 hover:opacity-100 cursor-pointer shrink-0"><X className="h-3 w-3" /></button>
               </div>
             )}
           </div>
@@ -467,8 +546,19 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
           </div>
         </header>
 
+        {/* Mobile feedback banner */}
+        {feedback && (
+          <div className={`sm:hidden flex items-center gap-2 px-4 py-2.5 border-b text-xs font-medium ${
+            feedback.success ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/10' : 'bg-red-500/10 text-red-400 border-red-500/10'
+          }`}>
+            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${feedback.success ? 'bg-emerald-400' : 'bg-red-400'}`} />
+            <span className="flex-1 truncate">{feedback.message}</span>
+            <button onClick={() => setFeedback(null)} className="opacity-50 hover:opacity-100 cursor-pointer shrink-0"><X className="h-3 w-3" /></button>
+          </div>
+        )}
+
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6 lg:p-8">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
           <div className="max-w-7xl mx-auto space-y-6">
 
             {/* Admin Register Form */}
@@ -833,7 +923,7 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
                                 )}
                               </td>
                               <td className="py-3.5 px-5 text-center">
-                                <div className="flex items-center justify-center gap-1 flex-wrap">
+                                <div className="flex items-center justify-center gap-1 flex-wrap max-w-[220px] sm:max-w-none">
                                   <button onClick={() => handleToggle(p.id, 'isRecent')}
                                     disabled={toggling === p.id + 'isRecent'}
                                     className={`text-[9px] font-bold px-2 py-0.5 rounded-full transition-all cursor-pointer border ${
@@ -1373,24 +1463,26 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
             {/* ─── KEYS ─── */}
             {tab === 'keys' && (
               <>
-                <div className="bg-[#0a0e1a] rounded-xl border border-white/[0.04] p-5 flex flex-wrap items-center gap-4">
-                  <div className="flex items-center gap-3 flex-1 min-w-[220px]">
+                <div className="bg-[#0a0e1a] rounded-xl border border-white/[0.04] p-4 sm:p-5 grid grid-cols-1 sm:flex sm:flex-wrap items-center gap-3">
+                  <div className="flex items-center gap-3 sm:flex-1 min-w-0 sm:min-w-[220px]">
                     <Search className="h-4 w-4 text-gray-600 shrink-0" />
                     <input type="text" value={keySearch} onChange={e => setKeySearch(e.target.value)} placeholder="Buscar clave o producto..."
                       className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-[#007cff]/40 placeholder:text-gray-700" />
                   </div>
-                  <select value={keyProdFilter} onChange={e => setKeyProdFilter(e.target.value)}
-                    className="bg-[#04060a] text-sm text-gray-300 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-[#007cff]/40">
-                    <option value="all">Todos los productos</option>
-                    {products.map(p => <option key={p.id} value={p.id}>{p.title}</option>)}
-                  </select>
-                  <select value={keyStatus} onChange={e => setKeyStatus(e.target.value as any)}
-                    className="bg-[#04060a] text-sm text-gray-300 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-[#007cff]/40">
-                    <option value="all">Todas</option>
-                    <option value="available">Disponibles</option>
-                    <option value="sold">Vendidas</option>
-                  </select>
-                  <span className="text-xs text-gray-600 bg-[#04060a] px-3 py-1.5 rounded-lg border border-white/[0.04]">
+                  <div className="grid grid-cols-2 sm:flex sm:items-center gap-3">
+                    <select value={keyProdFilter} onChange={e => setKeyProdFilter(e.target.value)}
+                      className="w-full bg-[#04060a] text-sm text-gray-300 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-[#007cff]/40">
+                      <option value="all">Todos los productos</option>
+                      {products.map(p => <option key={p.id} value={p.id}>{p.title}</option>)}
+                    </select>
+                    <select value={keyStatus} onChange={e => setKeyStatus(e.target.value as any)}
+                      className="w-full bg-[#04060a] text-sm text-gray-300 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-[#007cff]/40">
+                      <option value="all">Todas</option>
+                      <option value="available">Disponibles</option>
+                      <option value="sold">Vendidas</option>
+                    </select>
+                  </div>
+                  <span className="text-xs text-gray-600 bg-[#04060a] px-3 py-1.5 rounded-lg border border-white/[0.04] w-fit">
                     {filteredKeys.length} resultado{filteredKeys.length !== 1 ? 's' : ''}
                   </span>
                 </div>
@@ -1569,6 +1661,130 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
                       )}
                     </tbody>
                   </table>
+                </div>
+              </div>
+            )}
+
+            {/* ─── SETTINGS ─── */}
+            {tab === 'settings' && (
+              <div className="space-y-6">
+                {/* SEO */}
+                <div className="bg-[#0a0e1a] rounded-xl border border-white/[0.04] overflow-hidden">
+                  <div className="px-6 py-4 border-b border-white/[0.04] flex items-center gap-2.5">
+                    <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400"><Globe className="h-4 w-4" /></div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-200">SEO & Meta</h3>
+                      <p className="text-[11px] text-gray-600">Información para motores de búsqueda y redes sociales</p>
+                    </div>
+                  </div>
+                  <div className="p-6 space-y-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Nombre del Sitio</label>
+                      <input type="text" value={siteName} onChange={e => setSiteName(e.target.value)}
+                        className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-emerald-500/40 placeholder:text-gray-700" placeholder="PixelCodes" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Descripción del Sitio</label>
+                      <textarea value={siteDescription} onChange={e => setSiteDescription(e.target.value)} rows={3}
+                        className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-emerald-500/40 placeholder:text-gray-700 resize-none" placeholder="La tienda premium de..." />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Palabras Clave (separadas por coma)</label>
+                      <input type="text" value={siteKeywords} onChange={e => setSiteKeywords(e.target.value)}
+                        className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-emerald-500/40 placeholder:text-gray-700" placeholder="licencias, software, juegos, steam, xbox" />
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">URL del Sitio</label>
+                        <input type="text" value={siteUrl} onChange={e => setSiteUrl(e.target.value)}
+                          className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-emerald-500/40 placeholder:text-gray-700" placeholder="https://tusitio.com" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">URL Logo</label>
+                        <input type="text" value={logoUrl} onChange={e => setLogoUrl(e.target.value)}
+                          className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-emerald-500/40 placeholder:text-gray-700" placeholder="https://..." />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Imagen OG (Open Graph)</label>
+                      <input type="text" value={ogImageUrl} onChange={e => setOgImageUrl(e.target.value)}
+                        className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-emerald-500/40 placeholder:text-gray-700" placeholder="https://... (imagen para compartir en redes)" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Tienda */}
+                <div className="bg-[#0a0e1a] rounded-xl border border-white/[0.04] overflow-hidden">
+                  <div className="px-6 py-4 border-b border-white/[0.04] flex items-center gap-2.5">
+                    <div className="p-1.5 rounded-lg bg-blue-500/10 text-blue-400"><DollarSign className="h-4 w-4" /></div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-200">Tienda</h3>
+                      <p className="text-[11px] text-gray-600">Configuración de moneda y contacto</p>
+                    </div>
+                  </div>
+                  <div className="p-6 space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Código Moneda</label>
+                        <input type="text" value={currencyCode} onChange={e => setCurrencyCode(e.target.value)}
+                          className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-blue-500/40 placeholder:text-gray-700" placeholder="USD" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Símbolo Moneda</label>
+                        <input type="text" value={currencySymbol} onChange={e => setCurrencySymbol(e.target.value)}
+                          className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-blue-500/40 placeholder:text-gray-700" placeholder="$" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Email Soporte</label>
+                        <input type="email" value={supportEmail} onChange={e => setSupportEmail(e.target.value)}
+                          className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-blue-500/40 placeholder:text-gray-700" placeholder="soporte@tusitio.com" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Puntos y Cashback */}
+                <div className="bg-[#0a0e1a] rounded-xl border border-white/[0.04] overflow-hidden">
+                  <div className="px-6 py-4 border-b border-white/[0.04] flex items-center gap-2.5">
+                    <div className="p-1.5 rounded-lg bg-purple-500/10 text-purple-400"><Gift className="h-4 w-4" /></div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-200">Puntos y Cashback</h3>
+                      <p className="text-[11px] text-gray-600">Sistema de recompensas para clientes</p>
+                    </div>
+                  </div>
+                  <div className="p-6 space-y-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Puntos por Dólar Gastado</label>
+                      <input type="number" value={pointsPerDollar} onChange={e => setPointsPerDollar(parseInt(e.target.value) || 0)}
+                        className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-purple-500/40 placeholder:text-gray-700" />
+                      <p className="text-[11px] text-gray-600 mt-1">Los clientes ganan esta cantidad de puntos por cada dólar gastado</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <label className="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" checked={cashbackEnabled} onChange={e => setCashbackEnabled(e.target.checked)}
+                          className="sr-only peer" />
+                        <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                      </label>
+                      <span className="text-sm font-medium text-gray-300">Habilitar Cashback</span>
+                    </div>
+                    {cashbackEnabled && (
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Porcentaje Cashback (%)</label>
+                        <input type="number" step="0.1" value={cashbackPercent} onChange={e => setCashbackPercent(parseFloat(e.target.value) || 0)}
+                          className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-purple-500/40 placeholder:text-gray-700" />
+                        <p className="text-[11px] text-gray-600 mt-1">Los clientes recibirán este porcentaje de vuelta en créditos</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Botón Guardar */}
+                <div className="flex justify-end">
+                  <button onClick={handleSaveSettings} disabled={savingSettings}
+                    className="flex items-center gap-2 px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-700 text-white text-sm font-semibold rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed">
+                    <Save className="h-4 w-4" />
+                    {savingSettings ? 'Guardando...' : 'Guardar Configuración'}
+                  </button>
                 </div>
               </div>
             )}
