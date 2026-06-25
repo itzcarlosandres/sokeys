@@ -126,3 +126,12 @@ https://react.dev/link/hydration-mismatch
  GET / 200 in 331ms (next.js: 5ms, application-code: 326ms)
  GET /product/assassin-s-creed-2-pc-ubisoft-connect-cd-key 200 in 930ms (next.js: 847ms, application-code: 82ms)
  GET / 200 in 86ms (next.js: 5ms, application-code: 81ms)
+ GET /api/config 200 in 81ms (next.js: 64ms, application-code: 17ms)
+ POST /api/config 200 in 26ms (next.js: 3ms, application-code: 23ms)
+ GET / 200 in 192ms (next.js: 4ms, application-code: 188ms)
+✓ Compiled in 88ms
+ GET /admin 200 in 432ms (next.js: 111ms, application-code: 321ms)
+ GET / 200 in 438ms (next.js: 287ms, application-code: 151ms)
+✓ Compiled in 132ms
+ GET /admin 200 in 388ms (next.js: 104ms, application-code: 284ms)
+ GET / 200 in 391ms (next.js: 254ms, application-code: 137ms)

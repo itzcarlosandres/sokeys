@@ -20,6 +20,15 @@ export default function KeyFeed() {
   const [index, setIndex] = useState(0);
   const [displayed, setDisplayed] = useState('');
   const [status, setStatus] = useState<'generating' | 'delivered'>('generating');
+  const [time, setTime] = useState<string>('');
+
+  useEffect(() => {
+    setTime(new Date().toLocaleTimeString('en-US', { hour12: false }));
+    const interval = setInterval(() => {
+      setTime(new Date().toLocaleTimeString('en-US', { hour12: false }));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const current = SAMPLE_KEYS[index];
@@ -60,8 +69,8 @@ export default function KeyFeed() {
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse-dot" />
           <span className="font-mono text-[10px] uppercase tracking-wider text-[#6b7080]">live.delivery</span>
         </div>
-        <span className="font-mono text-[10px] text-[#6b7080]">
-          {new Date().toLocaleTimeString('en-US', { hour12: false })}
+        <span className="font-mono text-[10px] text-[#6b7080] tabular-nums">
+          {time || '--:--:--'}
         </span>
       </div>
 
