@@ -139,3 +139,18 @@ https://react.dev/link/hydration-mismatch
  GET /admin 200 in 170ms (next.js: 19ms, application-code: 151ms)
  GET / 200 in 455ms (next.js: 111ms, application-code: 344ms)
  GET / 200 in 225ms (next.js: 10ms, application-code: 215ms)
+ POST /api/config 200 in 69ms (next.js: 45ms, application-code: 24ms)
+ GET /admin 200 in 949ms (next.js: 5ms, application-code: 944ms)
+ POST /admin 200 in 24ms (next.js: 6ms, application-code: 18ms)
+  └─ ƒ adminVerify("aff33774227228da1d5523a75aa82f2b1cdcf45708c81ded49f7e26e87bb809c") in 6ms src/app/actions.ts
+ GET /api/config 200 in 10ms (next.js: 4ms, application-code: 6ms)
+ POST /api/config 200 in 21ms (next.js: 3ms, application-code: 18ms)
+ GET /admin 200 in 67ms (next.js: 4ms, application-code: 63ms)
+ POST /admin 200 in 17ms (next.js: 6ms, application-code: 11ms)
+  └─ ƒ adminVerify("aff33774227228da1d5523a75aa82f2b1cdcf45708c81ded49f7e26e87bb809c") in 2ms src/app/actions.ts
+ GET /api/config 200 in 12ms (next.js: 4ms, application-code: 8ms)
+ GET /admin 200 in 524ms (next.js: 110ms, application-code: 415ms)
+ GET /admin 200 in 164ms (next.js: 10ms, application-code: 154ms)
+ GET / 200 in 532ms (next.js: 290ms, application-code: 242ms)
+ GET / 200 in 171ms (next.js: 34ms, application-code: 137ms)
+ GET / 200 in 481ms (next.js: 6ms, application-code: 475ms)

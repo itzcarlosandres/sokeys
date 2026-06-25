@@ -35,6 +35,8 @@ const BRANDS = [
   { name: "Malwarebytes", icon: Shield },
 ];
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home({ searchParams }: PageProps) {
   const params = await searchParams;
   const search = params.search || '';
