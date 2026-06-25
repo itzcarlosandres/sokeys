@@ -152,11 +152,12 @@ export default function Navbar() {
       <div className="hidden md:block bg-[#04060a]/80 backdrop-blur-md border-b border-white/[0.04] py-2.5 px-4 sm:px-6 lg:px-8 relative z-[40]">
         <div className="max-w-7xl mx-auto flex items-center justify-between text-xs font-medium text-gray-500">
           <div className="flex gap-6">
-            <Link href="/" className="hover:text-gray-200 transition-colors">Todos</Link>
-            <Link href="/?platform=Windows" className="hover:text-gray-200 transition-colors">Windows & OS</Link>
-            <Link href="/?platform=Office" className="hover:text-gray-200 transition-colors">Office / Productividad</Link>
-            <Link href="/?platform=Security" className="hover:text-gray-200 transition-colors">Antivirus & Seguridad</Link>
-            <Link href="/?platform=Server" className="hover:text-gray-200 transition-colors">Dev & Servers</Link>
+            <Link href="/" className="hover:text-gray-200 transition-colors">Home</Link>
+            <Link href="/catalog" className="hover:text-gray-200 transition-colors">Catálogo</Link>
+            <Link href="/catalog?platform=Windows" className="hover:text-gray-200 transition-colors">Windows & OS</Link>
+            <Link href="/catalog?platform=Office" className="hover:text-gray-200 transition-colors">Office / Productividad</Link>
+            <Link href="/catalog?platform=Security" className="hover:text-gray-200 transition-colors">Antivirus & Seguridad</Link>
+            <Link href="/catalog?platform=Server" className="hover:text-gray-200 transition-colors">Dev & Servers</Link>
           </div>
           <span className="text-[10px] text-gray-600">Licencias Oficiales — Entrega Inmediata</span>
         </div>
@@ -186,10 +187,11 @@ export default function Navbar() {
             </Link>
           )}
           <div className="grid grid-cols-2 gap-2 mt-1">
-            <Link href="/" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2.5 bg-[#04060a] rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 transition-colors">Todos</Link>
-            <Link href="/?platform=Windows" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2.5 bg-[#04060a] rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 transition-colors">Windows & OS</Link>
-            <Link href="/?platform=Office" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2.5 bg-[#04060a] rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 transition-colors">Office</Link>
-            <Link href="/?platform=Security" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2.5 bg-[#04060a] rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 transition-colors">Seguridad</Link>
+            <Link href="/" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2.5 bg-[#04060a] rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 transition-colors">Home</Link>
+            <Link href="/catalog" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2.5 bg-[#04060a] rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 transition-colors">Catálogo</Link>
+            <Link href="/catalog?platform=Windows" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2.5 bg-[#04060a] rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 transition-colors">Windows & OS</Link>
+            <Link href="/catalog?platform=Office" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2.5 bg-[#04060a] rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 transition-colors">Office</Link>
+            <Link href="/catalog?platform=Security" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2.5 bg-[#04060a] rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 transition-colors">Seguridad</Link>
           </div>
           <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2.5 bg-[#04060a] rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 transition-colors flex items-center gap-2">
             <LayoutDashboard className="h-4 w-4 text-[#007cff]" /> Mi Panel

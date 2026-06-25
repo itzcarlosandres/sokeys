@@ -101,6 +101,10 @@ body {
   animation: pulse-dot 1.5s ease-in-out infinite;
 }
 
+.animate-cursor-blink {
+  animation: cursor-blink 1s steps(2) infinite;
+}
+
 @keyframes scan-line {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(100%); }
@@ -108,6 +112,17 @@ body {
 
 .animate-scan {
   animation: scan-line 4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse-dot,
+  .animate-cursor-blink,
+  .animate-scan,
+  .fade-up,
+  .lift {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 /* Hover lift for product cards */

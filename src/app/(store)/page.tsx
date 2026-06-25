@@ -187,7 +187,7 @@ export default async function Home({ searchParams }: PageProps) {
                 <div className="font-mono text-[10px] uppercase tracking-wider text-[#9eb8d9] mb-2">// 01 / Catalog</div>
                 <h2 className="font-display text-2xl text-[#e8e6e1]">Browse by category</h2>
               </div>
-              <Link href="/?search=" className="font-mono text-[11px] uppercase tracking-wider text-[#6b7080] hover:text-[#9eb8d9] transition-colors flex items-center gap-1.5">
+              <Link href="/catalog" className="font-mono text-[11px] uppercase tracking-wider text-[#6b7080] hover:text-[#9eb8d9] transition-colors flex items-center gap-1.5">
                 All categories <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
@@ -243,7 +243,7 @@ export default async function Home({ searchParams }: PageProps) {
                     <div className="font-mono text-[10px] uppercase tracking-wider text-[#9eb8d9] mb-2">// 03 / Trending</div>
                     <h2 className="font-display text-2xl text-[#e8e6e1]">Hot this week</h2>
                   </div>
-                  <Link href="/?search=hot" className="font-mono text-[11px] uppercase tracking-wider text-[#6b7080] hover:text-[#9eb8d9] transition-colors flex items-center gap-1.5">
+                  <Link href="/catalog" className="font-mono text-[11px] uppercase tracking-wider text-[#6b7080] hover:text-[#9eb8d9] transition-colors flex items-center gap-1.5">
                     See all <ArrowRight className="h-3 w-3" />
                   </Link>
                 </div>
