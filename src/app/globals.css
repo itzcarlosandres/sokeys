@@ -1,15 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #04060d;
-  --foreground: #f8fafc;
-  --card: #090d1a;
-  --card-border: #141b2d;
-  --accent-blue: #007cff;
-  --accent-orange: #ff9000;
-  --text-muted: #64748b;
-  --glow-blue: rgba(0, 124, 255, 0.12);
-  --glow-orange: rgba(255, 144, 0, 0.12);
+  --background: #08090c;
+  --foreground: #e8e6e1;
+  --card: #11131a;
+  --card-border: #1c1f28;
+  --accent: #9eb8d9;
+  --accent-deep: #5a7a9e;
+  --accent-glow: rgba(158, 184, 217, 0.15);
+  --text-muted: #6b7080;
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
 }
 
 @theme inline {
@@ -17,102 +19,112 @@
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-border: var(--card-border);
-  --color-accent-blue: var(--accent-blue);
-  --color-accent-orange: var(--accent-orange);
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
   --color-text-muted: var(--text-muted);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(0, 124, 255, 0.04) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.03) 0px, transparent 50%);
+  background-image:
+    radial-gradient(at 15% 10%, rgba(158, 184, 217, 0.04) 0px, transparent 50%),
+    radial-gradient(at 85% 90%, rgba(90, 122, 158, 0.03) 0px, transparent 50%);
 }
 
-/* Custom Scrollbar for premium feel */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #04060d;
+  background: #08090c;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #141b2d;
+  background: #1c1f28;
   border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #007cff;
+  background: #5a7a9e;
 }
 
-/* Grid pattern */
-.bg-grid-pattern {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+/* Subtle grid pattern */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(232, 230, 225, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(232, 230, 225, 0.015) 1px, transparent 1px);
+  background-size: 60px 60px;
 }
 
-/* Glassmorphism Panel */
-.glass-panel {
-  background: rgba(9, 13, 26, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+/* Display font utility */
+.font-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+  letter-spacing: -0.02em;
 }
 
-.glass-panel-hover:hover {
-  background: rgba(9, 13, 26, 0.85);
-  border-color: rgba(0, 124, 255, 0.15);
-  box-shadow: 0 10px 30px rgba(0, 124, 255, 0.05);
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
 }
 
-/* Premium 3D Box Mockup details */
-.box-3d-glow {
-  filter: drop-shadow(0 15px 25px rgba(0, 124, 255, 0.25));
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+/* Hairline divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(232, 230, 225, 0.08), transparent);
 }
 
-.box-3d-glow:hover {
-  transform: translateY(-8px) rotateY(-5deg) rotateX(5deg);
-  filter: drop-shadow(0 25px 35px rgba(0, 124, 255, 0.4));
+/* Glow for accent color */
+.glow-accent {
+  box-shadow: 0 0 0 1px rgba(158, 184, 217, 0.1), 0 8px 30px rgba(158, 184, 217, 0.08);
 }
 
-/* Custom Gradients */
-.bg-gradient-pixel {
-  background: linear-gradient(135deg, #090d1a 0%, #04060d 100%);
+/* Key feed animations */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
 }
 
-.bg-gradient-accent {
-  background: linear-gradient(90deg, #007cff 0%, #00bcff 100%);
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
 }
 
-.bg-gradient-orange-neon {
-  background: linear-gradient(135deg, #ff9000 0%, #ff5500 100%);
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
 }
 
-.text-gradient-pixel {
-  background: linear-gradient(90deg, #ffffff, #007cff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.animate-pulse-dot {
+  animation: pulse-dot 1.5s ease-in-out infinite;
 }
 
-.text-gradient-gold {
-  background: linear-gradient(90deg, #ffd700, #ffa500);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
 }
 
-/* Keyframe animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+.animate-scan {
+  animation: scan-line 4s linear infinite;
+}
+
+/* Hover lift for product cards */
+.lift {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+.lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Subtle fade-in for sections */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
