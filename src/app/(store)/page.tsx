@@ -61,7 +61,7 @@ export default async function Home({ searchParams }: PageProps) {
   const pointsPerDollar = config.pointsPerDollar || 10;
 
   const [recentProducts, hotProducts, featuredProduct] = isDefault ? await Promise.all([
-    db.product.findMany({ take: 8, orderBy: { createdAt: 'desc' }, include: { badges: true, platformObj: true } }),
+    db.product.findMany({ take: config.homeFeaturedCount || 8, orderBy: { createdAt: 'desc' }, include: { badges: true, platformObj: true } }),
     db.product.findMany({ where: { isHot: true }, take: 4, orderBy: { createdAt: 'desc' }, include: { badges: true, platformObj: true } }),
     db.product.findFirst({ where: { isFeatured: true }, include: { badges: true, platformObj: true } }),
   ]) : [[], [], null];
@@ -230,7 +230,7 @@ export default async function Home({ searchParams }: PageProps) {
                 subtitle="New keys just landed"
                 link="/?sort=rating"
                 products={recentProducts}
-                cols={4}
+                cols={config.homeColumns || 4}
                 pointsPerDollar={pointsPerDollar}
               />
             )}
