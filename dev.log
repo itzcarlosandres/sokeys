@@ -135,3 +135,7 @@ https://react.dev/link/hydration-mismatch
 ✓ Compiled in 132ms
  GET /admin 200 in 388ms (next.js: 104ms, application-code: 284ms)
  GET / 200 in 391ms (next.js: 254ms, application-code: 137ms)
+ GET /admin 200 in 260ms (next.js: 20ms, application-code: 240ms)
+ GET /admin 200 in 170ms (next.js: 19ms, application-code: 151ms)
+ GET / 200 in 455ms (next.js: 111ms, application-code: 344ms)
+ GET / 200 in 225ms (next.js: 10ms, application-code: 215ms)

@@ -59,7 +59,7 @@ export default async function Home({ searchParams }: PageProps) {
   const pointsPerDollar = config.pointsPerDollar || 10;
 
   const [recentProducts, hotProducts, featuredProduct] = isDefault ? await Promise.all([
-    db.product.findMany({ where: { isRecent: true }, take: 8, orderBy: { createdAt: 'desc' }, include: { badges: true, platformObj: true } }),
+    db.product.findMany({ take: 8, orderBy: { createdAt: 'desc' }, include: { badges: true, platformObj: true } }),
     db.product.findMany({ where: { isHot: true }, take: 4, orderBy: { createdAt: 'desc' }, include: { badges: true, platformObj: true } }),
     db.product.findFirst({ where: { isFeatured: true }, include: { badges: true, platformObj: true } }),
   ]) : [[], [], null];
