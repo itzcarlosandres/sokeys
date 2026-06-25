@@ -31,23 +31,22 @@ interface AdminPanelProps {
   topProducts: { productId: string; quantity: number; revenue: number; product: { title: string; slug: string; image: string } | null }[];
 }
 
-type TabId = 'dashboard' | 'products' | 'design' | 'platforms' | 'badges' | 'rewards' | 'keys' | 'orders' | 'customers' | 'settings';
+type TabId = 'dashboard' | 'products' | 'platforms' | 'badges' | 'rewards' | 'keys' | 'orders' | 'customers' | 'settings';
 
 const NAV = [
   { id: 'dashboard' as TabId, label: 'Panel', subtitle: 'Visión general', icon: LayoutDashboard },
   { id: 'products' as TabId, label: 'Productos', subtitle: 'Catálogo y stock', icon: Package },
-  { id: 'design' as TabId, label: 'Diseño', subtitle: 'Secciones del home', icon: Home },
   { id: 'platforms' as TabId, label: 'Plataformas', subtitle: 'Gestionar plataformas', icon: Monitor },
   { id: 'badges' as TabId, label: 'Badges', subtitle: 'Insignias de producto', icon: Award },
   { id: 'rewards' as TabId, label: 'Rewards', subtitle: 'Puntos y cupones', icon: Gift },
   { id: 'keys' as TabId, label: 'Claves', subtitle: 'Licencias y códigos', icon: Key },
   { id: 'orders' as TabId, label: 'Pedidos', subtitle: 'Historial de ventas', icon: ShoppingCart },
   { id: 'customers' as TabId, label: 'Clientes', subtitle: 'Base de compradores', icon: Users },
-  { id: 'settings' as TabId, label: 'Configuración', subtitle: 'SEO, tienda y general', icon: Shield },
+  { id: 'settings' as TabId, label: 'Configuración', subtitle: 'SEO, tienda, diseño y general', icon: Shield },
 ];
 
 const NAV_ICONS: Record<string, React.ElementType> = {
-  dashboard: LayoutDashboard, products: Package, design: Home, platforms: Monitor, badges: Award, rewards: Gift, keys: Key, orders: ShoppingCart, customers: Users, settings: Shield,
+  dashboard: LayoutDashboard, products: Package, platforms: Monitor, badges: Award, rewards: Gift, keys: Key, orders: ShoppingCart, customers: Users, settings: Shield,
 };
 
 export default function AdminPanel({ products, stats, orders, customers, allKeys, topProducts }: AdminPanelProps) {
@@ -140,15 +139,6 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
   }, []);
 
   useEffect(() => {
-    if (tab === 'design') {
-      fetch('/api/config').then(r => r.json()).then(data => {
-        if (data.success && data.config) {
-          setHomeColumns(data.config.homeColumns);
-          setHomeFeaturedCount(data.config.homeFeaturedCount);
-          setCatalogColumns(data.config.catalogColumns);
-        }
-      });
-    }
     if (tab === 'platforms') {
       fetch('/api/platforms').then(r => r.json()).then(data => {
         if (data.success) setPlatforms(data.platforms);
@@ -1080,198 +1070,6 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
             )}
 
             {/* ─── DISEÑO DE SECCIONES ─── */}
-            {tab === 'design' && (
-              <>
-                {/* Stats */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  {[
-                    { label: 'HOT', count: products.filter(p => p.isHot).length, color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/10', icon: Tag },
-                    { label: 'Mas comprado', count: products.filter(p => p.isBestSeller).length, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/10', icon: Trophy },
-                  ].map(s => {
-                    const Icon = s.icon;
-                    return (
-                      <div key={s.label} className={`bg-[#0a0e1a] rounded-xl p-5 border ${s.border} flex items-center gap-4`}>
-                        <div className={`p-3 rounded-xl ${s.bg} ${s.color}`}><Icon className="h-5 w-5" /></div>
-                        <div>
-                          <span className="text-2xl font-bold text-white">{s.count}</span>
-                          <p className="text-xs text-gray-500 font-medium">{s.label}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Layout config */}
-                <div className="bg-[#0c0e14] border border-white/[0.04] rounded-lg overflow-hidden">
-                  <div className="px-6 py-4 border-b border-white/[0.04] flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-[#9eb8d9]/10 text-[#9eb8d9]"><LayoutDashboard className="h-4 w-4" /></div>
-                    <div>
-                      <div className="font-mono text-[10px] uppercase tracking-wider text-[#9eb8d9]">// Layout</div>
-                      <h3 className="text-sm font-display text-[#e8e6e1]">Diseño de la home y catálogo</h3>
-                    </div>
-                  </div>
-                  <div className="p-6 space-y-5">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                      {/* Home columns */}
-                      <div>
-                        <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">
-                          Columnas en shelves (home)
-                        </label>
-                        <div className="flex items-center gap-2">
-                          {[2, 3, 4, 5, 6].map(n => (
-                            <button key={n} onClick={() => setHomeColumns(n)}
-                              className={`flex-1 font-mono text-sm py-2 rounded-md border transition-colors ${
-                                homeColumns === n
-                                  ? 'bg-[#9eb8d9]/10 border-[#9eb8d9]/40 text-[#9eb8d9]'
-                                  : 'bg-[#06080c] border-white/[0.06] text-[#6b7080] hover:text-[#e8e6e1] hover:border-white/[0.10]'
-                              }`}>
-                              {n}
-                            </button>
-                          ))}
-                        </div>
-                        <p className="font-mono text-[10px] text-[#6b7080] mt-1.5">Recently Added, Hot, etc.</p>
-                      </div>
-
-                      {/* Home featured count */}
-                      <div>
-                        <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">
-                          Cantidad por shelf
-                        </label>
-                        <div className="flex items-center gap-2">
-                          {[4, 6, 8, 12, 16, 20].map(n => (
-                            <button key={n} onClick={() => setHomeFeaturedCount(n)}
-                              className={`flex-1 font-mono text-sm py-2 rounded-md border transition-colors ${
-                                homeFeaturedCount === n
-                                  ? 'bg-[#9eb8d9]/10 border-[#9eb8d9]/40 text-[#9eb8d9]'
-                                  : 'bg-[#06080c] border-white/[0.06] text-[#6b7080] hover:text-[#e8e6e1] hover:border-white/[0.10]'
-                              }`}>
-                              {n}
-                            </button>
-                          ))}
-                        </div>
-                        <p className="font-mono text-[10px] text-[#6b7080] mt-1.5">Productos por cada shelf</p>
-                      </div>
-
-                      {/* Catalog columns */}
-                      <div>
-                        <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">
-                          Columnas en catálogo
-                        </label>
-                        <div className="flex items-center gap-2">
-                          {[2, 3, 4, 5, 6].map(n => (
-                            <button key={n} onClick={() => setCatalogColumns(n)}
-                              className={`flex-1 font-mono text-sm py-2 rounded-md border transition-colors ${
-                                catalogColumns === n
-                                  ? 'bg-[#9eb8d9]/10 border-[#9eb8d9]/40 text-[#9eb8d9]'
-                                  : 'bg-[#06080c] border-white/[0.06] text-[#6b7080] hover:text-[#e8e6e1] hover:border-white/[0.10]'
-                              }`}>
-                              {n}
-                            </button>
-                          ))}
-                        </div>
-                        <p className="font-mono text-[10px] text-[#6b7080] mt-1.5">Vista con búsqueda/filtros</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between pt-3 border-t border-white/[0.04]">
-                      <p className="font-mono text-[10px] text-[#6b7080]">
-                        Los cambios se aplican al guardar y refrescar la home
-                      </p>
-                      <button onClick={handleSaveDesign} disabled={savingDesign}
-                        className="flex items-center gap-2 px-5 py-2 bg-[#9eb8d9] hover:bg-[#b5c7e0] disabled:bg-[#6b7080] text-[#08090c] text-sm font-mono font-semibold rounded-md transition-colors cursor-pointer disabled:cursor-not-allowed">
-                        {savingDesign ? 'Saving...' : 'Guardar diseño'}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Quick add */}
-                <div className="bg-[#0a0e1a] rounded-xl border border-white/[0.04] overflow-hidden">
-                  <div className="px-6 py-4 border-b border-white/[0.04] flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-[#007cff]/10 text-[#007cff]"><Plus className="h-4 w-4" /></div>
-                    <div>
-                      <h3 className="text-sm font-semibold text-gray-200">Agregar a Sección</h3>
-                      <p className="text-[11px] text-gray-600">Selecciona un producto y agrégalo a la sección deseada</p>
-                    </div>
-                  </div>
-                  <div className="p-5 flex flex-wrap items-end gap-4">
-                    <div className="flex-1 min-w-[200px]">
-                      <label className="text-xs text-gray-500 font-medium mb-1.5 block">Producto</label>
-                      <select value={selProd} onChange={e => setSelProd(e.target.value)}
-                        className="w-full bg-[#04060a] text-sm text-gray-300 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-[#007cff]/40">
-                        <option value="" disabled>Seleccionar producto</option>
-                        {products.map(p => <option key={p.id} value={p.id}>{p.title}</option>)}
-                      </select>
-                    </div>
-                    {[
-                      { field: 'isHot' as const, label: 'HOT', color: 'orange', Icon: Tag },
-                      { field: 'isBestSeller' as const, label: 'Mas comprado', color: 'emerald', Icon: Trophy },
-                    ].map(btn => {
-                      const Icon = btn.Icon;
-                      const cc: Record<string, string> = {
-                        orange: 'bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border-orange-500/20',
-                        emerald: 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border-emerald-500/20',
-                      };
-                      return (
-                        <button key={btn.field} onClick={() => { if (selProd) handleToggle(selProd, btn.field); }}
-                          disabled={!selProd || toggling === selProd + btn.field}
-                          className={`px-4 py-2.5 text-sm font-medium rounded-lg border transition-all cursor-pointer flex items-center gap-2 ${cc[btn.color]}`}>
-                          <Icon className="h-4 w-4" />
-                          {toggling === selProd + btn.field ? '...' : btn.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Product lists by section */}
-                {[
-                  { field: 'isHot' as const, label: 'HOT', color: 'orange', Icon: Tag },
-                  { field: 'isBestSeller' as const, label: 'Mas comprado', color: 'emerald', Icon: Trophy },
-                ].map(section => {
-                  const filtered = products.filter(p => p[section.field]);
-                  const colors: Record<string, string> = { orange: 'text-orange-400', emerald: 'text-emerald-400' };
-                  const bgColors: Record<string, string> = { orange: 'bg-orange-500/10', emerald: 'bg-emerald-500/10' };
-                  const borderColors: Record<string, string> = { orange: 'border-orange-500/10', emerald: 'border-emerald-500/10' };
-                  return (
-                    <div key={section.field} className="bg-[#0a0e1a] rounded-xl border border-white/[0.04] overflow-hidden">
-                      <div className="px-6 py-4 border-b border-white/[0.04] flex items-center gap-2.5">
-                        <div className={`p-1.5 rounded-lg ${bgColors[section.color]} ${colors[section.color]}`}>
-                          <section.Icon className="h-4 w-4" />
-                        </div>
-                        <h3 className="text-sm font-semibold text-gray-200">{section.label}</h3>
-                        <span className="text-xs text-gray-600 bg-[#04060a] px-2.5 py-1 rounded-lg border border-white/[0.04]">{filtered.length}</span>
-                      </div>
-                      <div className="p-5">
-                        {filtered.length === 0 ? (
-                          <p className="text-sm text-gray-600 text-center py-4">No hay productos en esta sección.</p>
-                        ) : (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                            {filtered.map(p => (
-                              <div key={p.id} className="flex items-center gap-3 p-3 bg-[#04060a] border border-white/[0.04] rounded-xl hover:border-white/[0.08] transition-all group">
-                                <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/[0.06] shrink-0">
-                                  <SafeImage src={p.image} alt="" fill sizes="40px" className="object-cover" />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <p className="text-sm font-medium text-gray-200 truncate">{p.title}</p>
-                                  <p className="text-xs text-gray-600">{p.platform} · {money(p.price)}</p>
-                                </div>
-                                <button onClick={() => handleToggle(p.id, section.field)}
-                                  disabled={toggling === p.id + section.field}
-                                  className={`shrink-0 px-3 py-1.5 ${bgColors[section.color]} hover:bg-red-500/10 ${colors[section.color]} hover:text-red-400 text-[11px] font-semibold rounded-lg border ${borderColors[section.color]} hover:border-red-500/20 transition-all cursor-pointer`}>
-                                  {toggling === p.id + section.field ? '...' : 'Quitar'}
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </>
-            )}
-
             {/* ─── PLATFORMS ─── */}
             {tab === 'platforms' && (
               <>
@@ -1859,6 +1657,84 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
                         <p className="font-mono text-[10px] text-[#6b7080] mt-1.5">Los clientes recibirán este porcentaje de vuelta en créditos</p>
                       </div>
                     )}
+                  </div>
+                </div>
+
+                {/* Layout config */}
+                <div className="bg-[#0c0e14] border border-white/[0.04] rounded-lg overflow-hidden">
+                  <div className="px-6 py-4 border-b border-white/[0.04] flex items-center gap-2.5">
+                    <div className="p-1.5 rounded-lg bg-[#9eb8d9]/10 text-[#9eb8d9]"><LayoutDashboard className="h-4 w-4" /></div>
+                    <div>
+                      <div className="font-mono text-[10px] uppercase tracking-wider text-[#9eb8d9]">// Layout</div>
+                      <h3 className="text-sm font-display text-[#e8e6e1]">Diseño de la home y catálogo</h3>
+                    </div>
+                  </div>
+                  <div className="p-6 space-y-5">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                      <div>
+                        <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">
+                          Columnas en shelves (home)
+                        </label>
+                        <div className="flex items-center gap-2">
+                          {[2, 3, 4, 5, 6].map(n => (
+                            <button key={n} onClick={() => setHomeColumns(n)}
+                              className={`flex-1 font-mono text-sm py-2 rounded-md border transition-colors ${
+                                homeColumns === n
+                                  ? 'bg-[#9eb8d9]/10 border-[#9eb8d9]/40 text-[#9eb8d9]'
+                                  : 'bg-[#06080c] border-white/[0.06] text-[#6b7080] hover:text-[#e8e6e1] hover:border-white/[0.10]'
+                              }`}>
+                              {n}
+                            </button>
+                          ))}
+                        </div>
+                        <p className="font-mono text-[10px] text-[#6b7080] mt-1.5">Recently Added, Hot, etc.</p>
+                      </div>
+
+                      <div>
+                        <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">
+                          Cantidad por shelf
+                        </label>
+                        <div className="flex items-center gap-2">
+                          {[4, 6, 8, 12, 16, 20].map(n => (
+                            <button key={n} onClick={() => setHomeFeaturedCount(n)}
+                              className={`flex-1 font-mono text-sm py-2 rounded-md border transition-colors ${
+                                homeFeaturedCount === n
+                                  ? 'bg-[#9eb8d9]/10 border-[#9eb8d9]/40 text-[#9eb8d9]'
+                                  : 'bg-[#06080c] border-white/[0.06] text-[#6b7080] hover:text-[#e8e6e1] hover:border-white/[0.10]'
+                              }`}>
+                              {n}
+                            </button>
+                          ))}
+                        </div>
+                        <p className="font-mono text-[10px] text-[#6b7080] mt-1.5">Productos por cada shelf</p>
+                      </div>
+
+                      <div>
+                        <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">
+                          Columnas en catálogo
+                        </label>
+                        <div className="flex items-center gap-2">
+                          {[2, 3, 4, 5, 6].map(n => (
+                            <button key={n} onClick={() => setCatalogColumns(n)}
+                              className={`flex-1 font-mono text-sm py-2 rounded-md border transition-colors ${
+                                catalogColumns === n
+                                  ? 'bg-[#9eb8d9]/10 border-[#9eb8d9]/40 text-[#9eb8d9]'
+                                  : 'bg-[#06080c] border-white/[0.06] text-[#6b7080] hover:text-[#e8e6e1] hover:border-white/[0.10]'
+                              }`}>
+                              {n}
+                            </button>
+                          ))}
+                        </div>
+                        <p className="font-mono text-[10px] text-[#6b7080] mt-1.5">Vista con búsqueda/filtros</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-end pt-3 border-t border-white/[0.04]">
+                      <button onClick={handleSaveDesign} disabled={savingDesign}
+                        className="flex items-center gap-2 px-5 py-2 bg-[#9eb8d9] hover:bg-[#b5c7e0] disabled:bg-[#6b7080] text-[#08090c] text-sm font-mono font-semibold rounded-md transition-colors cursor-pointer disabled:cursor-not-allowed">
+                        {savingDesign ? 'Saving...' : 'Guardar layout'}
+                      </button>
+                    </div>
                   </div>
                 </div>
 

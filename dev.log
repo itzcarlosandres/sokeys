@@ -26,3 +26,103 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (f
  POST /admin 200 in 28ms (next.js: 7ms, application-code: 21ms)
   └─ ƒ adminVerify("aff33774227228da1d5523a75aa82f2b1cdcf45708c81ded49f7e26e87bb809c") in 3ms src/app/actions.ts
  GET /api/config 200 in 40ms (next.js: 30ms, application-code: 10ms)
+ GET /api/config 200 in 51ms (next.js: 4ms, application-code: 47ms)
+ GET /api/coupons 200 in 54ms (next.js: 43ms, application-code: 11ms)
+ GET / 200 in 400ms (next.js: 7ms, application-code: 393ms)
+ GET /api/config 200 in 14ms (next.js: 4ms, application-code: 11ms)
+✓ Compiled in 2.6s
+ GET /admin 200 in 883ms (next.js: 422ms, application-code: 462ms)
+ GET /admin 200 in 379ms (next.js: 22ms, application-code: 358ms)
+ GET /admin 200 in 189ms (next.js: 12ms, application-code: 177ms)
+ GET / 200 in 913ms (next.js: 158ms, application-code: 755ms)
+ GET / 200 in 407ms (next.js: 93ms, application-code: 313ms)
+ GET / 200 in 212ms (next.js: 36ms, application-code: 176ms)
+✓ Compiled in 134ms
+ GET /admin 200 in 251ms (next.js: 137ms, application-code: 114ms)
+ GET / 200 in 453ms (next.js: 124ms, application-code: 329ms)
+ POST /admin 200 in 61ms (next.js: 5ms, application-code: 56ms)
+  └─ ƒ createProduct({"bannerImage":null,"description":"Assassin’s Creed 2 is the follow-up to the title that became the fastest-selling new IP in video game history. The highly anticipated title features a new hero, Ezio Auditore da Firenze, a young Italian noble, and a new era, the Renaissance. Assassin’s Creed 2 retains the core gameplay experience that made the first opus a resounding success and features new experiences that will surprise and challenge players.","genre":"Adventure","...":"12 items not stringified"}) in 41ms src/app/actions.ts
+ GET /admin 200 in 76ms (next.js: 11ms, application-code: 65ms)
+✓ Compiled in 461ms
+ GET /admin 200 in 766ms (next.js: 366ms, application-code: 400ms)
+ GET /admin 200 in 333ms (next.js: 91ms, application-code: 242ms)
+ GET /admin 200 in 188ms (next.js: 43ms, application-code: 144ms)
+ GET / 200 in 792ms (next.js: 120ms, application-code: 672ms)
+ GET / 200 in 349ms (next.js: 38ms, application-code: 311ms)
+ GET / 200 in 200ms (next.js: 12ms, application-code: 189ms)
+ GET / 200 in 398ms (next.js: 5ms, application-code: 393ms)
+[browser] Uncaught Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HTTPAccessFallbackErrorBoundary pathname="/" notFound={{...}} forbidden={undefined} unauthorized={undefined} ...>
+      <RedirectBoundary>
+        <RedirectErrorBoundary router={{...}}>
+          <InnerLayoutRouter url="/" tree={[...]} params={{}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+            <SegmentViewNode type="page" pagePath="(store)/pa...">
+              <SegmentTrieNode>
+              <Home>
+                <div className="flex-1 fle...">
+                  <section className="relative o...">
+                    <div>
+                    <div className="relative m...">
+                      <div className="grid grid-...">
+                        <div>
+                        <div className="lg:col-spa...">
+                          <KeyFeed>
+                            <div className="relative b...">
+                              <div>
+                              <div className="flex items...">
+                                <div>
+                                <span className="font-mono text-[10px] text-[#6b7080]">
++                                 15:15:21
+-                                 15:15:20
+                              ...
+                          ...
+                  ...
+            ...
+          ...
+
+    at <unknown> (https://react.dev/link/hydration-mismatch)
+    at <unknown> (+                                 15:15:21)
+    at <unknown> (-                                 15:15:20)
+    at throwOnHydrationMismatch (file://C:/Users/El Picho/Documents/Proyectos NextJS/licencias/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:3318:56)
+    at prepareToHydrateHostInstance (file://C:/Users/El Picho/Documents/Proyectos NextJS/licencias/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:3372:23)
+    at completeWork (file://C:/Users/El Picho/Documents/Proyectos NextJS/licencias/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6922:60)
+    at runWithFiberInDEV (file://C:/Users/El Picho/Documents/Proyectos NextJS/licencias/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at completeUnitOfWork (file://C:/Users/El Picho/Documents/Proyectos NextJS/licencias/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9622:23)
+    at performUnitOfWork (file://C:/Users/El Picho/Documents/Proyectos NextJS/licencias/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9557:28)
+    at workLoopConcurrentByScheduler (file://C:/Users/El Picho/Documents/Proyectos NextJS/licencias/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9551:58)
+    at renderRootConcurrent (file://C:/Users/El Picho/Documents/Proyectos NextJS/licencias/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9534:71)
+    at performWorkOnRoot (file://C:/Users/El Picho/Documents/Proyectos NextJS/licencias/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9061:150)
+    at performWorkOnRootViaSchedulerTask (file://C:/Users/El Picho/Documents/Proyectos NextJS/licencias/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10255:9)
+    at MessagePort.performWorkUntilDeadline (file://C:/Users/El Picho/Documents/Proyectos NextJS/licencias/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:2647:64)
+    at span (<anonymous>)
+    at KeyFeed (file://C:/Users/El Picho/Documents/Proyectos NextJS/licencias/.next/dev/static/chunks/src_components_0idquve._.js:696:223)
+    at Home (src\app\(store)\page.tsx:154:17)
+  152 |               {/* Right: live key feed */}
+  153 |               <div className="lg:col-span-5 lg:mt-2">
+> 154 |                 <KeyFeed />
+      |                 ^
+  155 |
+  156 |                 {/* Promise list under feed */}
+  157 |                 <div className="mt-4 grid grid-cols-2 gap-2 font-mono text-[11px]">
+✓ Compiled in 121ms
+ GET /admin 200 in 350ms (next.js: 128ms, application-code: 222ms)
+ GET / 200 in 353ms (next.js: 188ms, application-code: 165ms)
+ POST /admin 200 in 35ms (next.js: 4ms, application-code: 30ms)
+  └─ ƒ toggleProductField("588731b9-4fb8-47a3-8fce-3750f4f93158", "isRecent") in 19ms src/app/actions.ts
+ GET /admin 200 in 9ms (next.js: 3ms, application-code: 6ms)
+ GET /admin 200 in 40ms (next.js: 3ms, application-code: 36ms)
+ GET / 200 in 331ms (next.js: 5ms, application-code: 326ms)
+ GET /product/assassin-s-creed-2-pc-ubisoft-connect-cd-key 200 in 930ms (next.js: 847ms, application-code: 82ms)
+ GET / 200 in 86ms (next.js: 5ms, application-code: 81ms)
