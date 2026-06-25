@@ -1753,110 +1753,110 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
             {tab === 'settings' && (
               <div className="space-y-6">
                 {/* SEO */}
-                <div className="bg-[#0a0e1a] rounded-xl border border-white/[0.04] overflow-hidden">
+                <div className="bg-[#0c0e14] border border-white/[0.04] rounded-lg overflow-hidden">
                   <div className="px-6 py-4 border-b border-white/[0.04] flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400"><Globe className="h-4 w-4" /></div>
+                    <div className="p-1.5 rounded-lg bg-[#9eb8d9]/10 text-[#9eb8d9]"><Globe className="h-4 w-4" /></div>
                     <div>
-                      <h3 className="text-sm font-semibold text-gray-200">SEO & Meta</h3>
-                      <p className="text-[11px] text-gray-600">Información para motores de búsqueda y redes sociales</p>
+                      <div className="font-mono text-[10px] uppercase tracking-wider text-[#9eb8d9]">// SEO & Meta</div>
+                      <h3 className="text-sm font-display text-[#e8e6e1]">Motores de búsqueda y redes sociales</h3>
                     </div>
                   </div>
                   <div className="p-6 space-y-4">
                     <div>
-                      <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Nombre del Sitio</label>
+                      <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">Nombre del Sitio</label>
                       <input type="text" value={siteName} onChange={e => setSiteName(e.target.value)}
-                        className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-emerald-500/40 placeholder:text-gray-700" placeholder="PixelCodes" />
+                        className="w-full bg-[#06080c] text-sm text-[#e8e6e1] px-3.5 py-2.5 rounded-md border border-white/[0.06] focus:outline-none focus:border-[#9eb8d9]/40 placeholder:text-[#6b7080]" placeholder="PixelCodes" />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Descripción del Sitio</label>
+                      <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">Descripción del Sitio</label>
                       <textarea value={siteDescription} onChange={e => setSiteDescription(e.target.value)} rows={3}
-                        className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-emerald-500/40 placeholder:text-gray-700 resize-none" placeholder="La tienda premium de..." />
+                        className="w-full bg-[#06080c] text-sm text-[#e8e6e1] px-3.5 py-2.5 rounded-md border border-white/[0.06] focus:outline-none focus:border-[#9eb8d9]/40 placeholder:text-[#6b7080] resize-none" placeholder="La tienda premium de..." />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Palabras Clave (separadas por coma)</label>
+                      <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">Palabras Clave (separadas por coma)</label>
                       <input type="text" value={siteKeywords} onChange={e => setSiteKeywords(e.target.value)}
-                        className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-emerald-500/40 placeholder:text-gray-700" placeholder="licencias, software, juegos, steam, xbox" />
+                        className="w-full bg-[#06080c] text-sm text-[#e8e6e1] px-3.5 py-2.5 rounded-md border border-white/[0.06] focus:outline-none focus:border-[#9eb8d9]/40 placeholder:text-[#6b7080]" placeholder="licencias, software, juegos, steam, xbox" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">URL del Sitio</label>
+                        <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">URL del Sitio</label>
                         <input type="text" value={siteUrl} onChange={e => setSiteUrl(e.target.value)}
-                          className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-emerald-500/40 placeholder:text-gray-700" placeholder="https://tusitio.com" />
+                          className="w-full bg-[#06080c] text-sm text-[#e8e6e1] px-3.5 py-2.5 rounded-md border border-white/[0.06] focus:outline-none focus:border-[#9eb8d9]/40 placeholder:text-[#6b7080]" placeholder="https://tusitio.com" />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">URL Logo</label>
+                        <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">URL Logo</label>
                         <input type="text" value={logoUrl} onChange={e => setLogoUrl(e.target.value)}
-                          className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-emerald-500/40 placeholder:text-gray-700" placeholder="https://..." />
+                          className="w-full bg-[#06080c] text-sm text-[#e8e6e1] px-3.5 py-2.5 rounded-md border border-white/[0.06] focus:outline-none focus:border-[#9eb8d9]/40 placeholder:text-[#6b7080]" placeholder="https://..." />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Imagen OG (Open Graph)</label>
+                      <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">Imagen OG (Open Graph)</label>
                       <input type="text" value={ogImageUrl} onChange={e => setOgImageUrl(e.target.value)}
-                        className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-emerald-500/40 placeholder:text-gray-700" placeholder="https://... (imagen para compartir en redes)" />
+                        className="w-full bg-[#06080c] text-sm text-[#e8e6e1] px-3.5 py-2.5 rounded-md border border-white/[0.06] focus:outline-none focus:border-[#9eb8d9]/40 placeholder:text-[#6b7080]" placeholder="https://... (imagen para compartir en redes)" />
                     </div>
                   </div>
                 </div>
 
                 {/* Tienda */}
-                <div className="bg-[#0a0e1a] rounded-xl border border-white/[0.04] overflow-hidden">
+                <div className="bg-[#0c0e14] border border-white/[0.04] rounded-lg overflow-hidden">
                   <div className="px-6 py-4 border-b border-white/[0.04] flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-blue-500/10 text-blue-400"><DollarSign className="h-4 w-4" /></div>
+                    <div className="p-1.5 rounded-lg bg-[#9eb8d9]/10 text-[#9eb8d9]"><DollarSign className="h-4 w-4" /></div>
                     <div>
-                      <h3 className="text-sm font-semibold text-gray-200">Tienda</h3>
-                      <p className="text-[11px] text-gray-600">Configuración de moneda y contacto</p>
+                      <div className="font-mono text-[10px] uppercase tracking-wider text-[#9eb8d9]">// Tienda</div>
+                      <h3 className="text-sm font-display text-[#e8e6e1]">Moneda y contacto</h3>
                     </div>
                   </div>
                   <div className="p-6 space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Código Moneda</label>
+                        <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">Código Moneda</label>
                         <input type="text" value={currencyCode} onChange={e => setCurrencyCode(e.target.value)}
-                          className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-blue-500/40 placeholder:text-gray-700" placeholder="USD" />
+                          className="w-full bg-[#06080c] text-sm text-[#e8e6e1] px-3.5 py-2.5 rounded-md border border-white/[0.06] focus:outline-none focus:border-[#9eb8d9]/40 placeholder:text-[#6b7080]" placeholder="USD" />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Símbolo Moneda</label>
+                        <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">Símbolo Moneda</label>
                         <input type="text" value={currencySymbol} onChange={e => setCurrencySymbol(e.target.value)}
-                          className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-blue-500/40 placeholder:text-gray-700" placeholder="$" />
+                          className="w-full bg-[#06080c] text-sm text-[#e8e6e1] px-3.5 py-2.5 rounded-md border border-white/[0.06] focus:outline-none focus:border-[#9eb8d9]/40 placeholder:text-[#6b7080]" placeholder="$" />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Email Soporte</label>
+                        <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">Email Soporte</label>
                         <input type="email" value={supportEmail} onChange={e => setSupportEmail(e.target.value)}
-                          className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-blue-500/40 placeholder:text-gray-700" placeholder="soporte@tusitio.com" />
+                          className="w-full bg-[#06080c] text-sm text-[#e8e6e1] px-3.5 py-2.5 rounded-md border border-white/[0.06] focus:outline-none focus:border-[#9eb8d9]/40 placeholder:text-[#6b7080]" placeholder="soporte@tusitio.com" />
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Puntos y Cashback */}
-                <div className="bg-[#0a0e1a] rounded-xl border border-white/[0.04] overflow-hidden">
+                <div className="bg-[#0c0e14] border border-white/[0.04] rounded-lg overflow-hidden">
                   <div className="px-6 py-4 border-b border-white/[0.04] flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-purple-500/10 text-purple-400"><Gift className="h-4 w-4" /></div>
+                    <div className="p-1.5 rounded-lg bg-[#9eb8d9]/10 text-[#9eb8d9]"><Gift className="h-4 w-4" /></div>
                     <div>
-                      <h3 className="text-sm font-semibold text-gray-200">Puntos y Cashback</h3>
-                      <p className="text-[11px] text-gray-600">Sistema de recompensas para clientes</p>
+                      <div className="font-mono text-[10px] uppercase tracking-wider text-[#9eb8d9]">// Recompensas</div>
+                      <h3 className="text-sm font-display text-[#e8e6e1]">Puntos y Cashback</h3>
                     </div>
                   </div>
                   <div className="p-6 space-y-4">
                     <div>
-                      <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Puntos por Dólar Gastado</label>
+                      <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">Puntos por Dólar Gastado</label>
                       <input type="number" value={pointsPerDollar} onChange={e => setPointsPerDollar(parseInt(e.target.value) || 0)}
-                        className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-purple-500/40 placeholder:text-gray-700" />
-                      <p className="text-[11px] text-gray-600 mt-1">Los clientes ganan esta cantidad de puntos por cada dólar gastado</p>
+                        className="w-full bg-[#06080c] text-sm text-[#e8e6e1] px-3.5 py-2.5 rounded-md border border-white/[0.06] focus:outline-none focus:border-[#9eb8d9]/40 placeholder:text-[#6b7080]" />
+                      <p className="font-mono text-[10px] text-[#6b7080] mt-1.5">Los clientes ganan esta cantidad de puntos por cada dólar gastado</p>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 py-2">
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" checked={cashbackEnabled} onChange={e => setCashbackEnabled(e.target.checked)}
                           className="sr-only peer" />
-                        <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                        <div className="w-11 h-6 bg-[#1c1f28] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#9eb8d9]"></div>
                       </label>
-                      <span className="text-sm font-medium text-gray-300">Habilitar Cashback</span>
+                      <span className="text-sm text-[#e8e6e1]">Habilitar Cashback</span>
                     </div>
                     {cashbackEnabled && (
                       <div>
-                        <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Porcentaje Cashback (%)</label>
+                        <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">Porcentaje Cashback (%)</label>
                         <input type="number" step="0.1" value={cashbackPercent} onChange={e => setCashbackPercent(parseFloat(e.target.value) || 0)}
-                          className="w-full bg-[#04060a] text-sm text-gray-200 px-3.5 py-2.5 rounded-lg border border-white/[0.06] focus:outline-none focus:border-purple-500/40 placeholder:text-gray-700" />
-                        <p className="text-[11px] text-gray-600 mt-1">Los clientes recibirán este porcentaje de vuelta en créditos</p>
+                          className="w-full bg-[#06080c] text-sm text-[#e8e6e1] px-3.5 py-2.5 rounded-md border border-white/[0.06] focus:outline-none focus:border-[#9eb8d9]/40 placeholder:text-[#6b7080]" />
+                        <p className="font-mono text-[10px] text-[#6b7080] mt-1.5">Los clientes recibirán este porcentaje de vuelta en créditos</p>
                       </div>
                     )}
                   </div>
@@ -1865,9 +1865,9 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
                 {/* Botón Guardar */}
                 <div className="flex justify-end">
                   <button onClick={handleSaveSettings} disabled={savingSettings}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-700 text-white text-sm font-semibold rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed">
+                    className="flex items-center gap-2 px-6 py-2.5 bg-[#9eb8d9] hover:bg-[#b5c7e0] disabled:bg-[#6b7080] text-[#08090c] text-sm font-mono font-semibold rounded-md transition-colors cursor-pointer disabled:cursor-not-allowed">
                     <Save className="h-4 w-4" />
-                    {savingSettings ? 'Guardando...' : 'Guardar Configuración'}
+                    {savingSettings ? 'Saving...' : 'Guardar Configuración'}
                   </button>
                 </div>
               </div>

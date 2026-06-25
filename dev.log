@@ -1,14 +1,28 @@
 
 > licencias@0.1.0 dev
-> next dev
+> next dev --port 3003
 
 ▲ Next.js 16.2.6 (Turbopack)
-- Local:         http://localhost:3000
-- Network:       http://192.168.1.6:3000
+- Local:         http://localhost:3003
+- Network:       http://192.168.1.7:3003
 - Environments: .env
-✓ Ready in 517ms
+✓ Ready in 799ms
 
- GET / 200 in 979ms (next.js: 194ms, application-code: 785ms)
- GET / 200 in 254ms (next.js: 5ms, application-code: 248ms)
- GET / 200 in 219ms (next.js: 3ms, application-code: 217ms)
-[?25h
+ GET /admin 200 in 1831ms (next.js: 1265ms, application-code: 566ms)
+ GET / 200 in 1855ms (next.js: 841ms, application-code: 1014ms)
+ POST /admin 200 in 32ms (next.js: 6ms, application-code: 26ms)
+  └─ ƒ adminVerify("aff33774227228da1d5523a75aa82f2b1cdcf45708c81ded49f7e26e87bb809c") in 4ms src/app/actions.ts
+[browser] Image with src "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop&q=80" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file://C:/Users/El Picho/Documents/Proyectos NextJS/licencias/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+ GET /?platform=Office 200 in 51ms (next.js: 12ms, application-code: 39ms)
+ GET / 200 in 13ms (next.js: 5ms, application-code: 8ms)
+ GET / 200 in 73ms (next.js: 4ms, application-code: 69ms)
+ GET /api/config 200 in 117ms (next.js: 90ms, application-code: 27ms)
+✓ Compiled in 196ms
+ GET /admin 200 in 298ms (next.js: 84ms, application-code: 214ms)
+ GET / 200 in 302ms (next.js: 135ms, application-code: 167ms)
+ GET /product 404 in 854ms (next.js: 735ms, application-code: 119ms)
+ GET /admin 200 in 339ms (next.js: 9ms, application-code: 330ms)
+ POST /admin 200 in 28ms (next.js: 7ms, application-code: 21ms)
+  └─ ƒ adminVerify("aff33774227228da1d5523a75aa82f2b1cdcf45708c81ded49f7e26e87bb809c") in 3ms src/app/actions.ts
+ GET /api/config 200 in 40ms (next.js: 30ms, application-code: 10ms)
