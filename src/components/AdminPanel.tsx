@@ -1101,6 +1101,90 @@ export default function AdminPanel({ products, stats, orders, customers, allKeys
                   })}
                 </div>
 
+                {/* Layout config */}
+                <div className="bg-[#0c0e14] border border-white/[0.04] rounded-lg overflow-hidden">
+                  <div className="px-6 py-4 border-b border-white/[0.04] flex items-center gap-2.5">
+                    <div className="p-1.5 rounded-lg bg-[#9eb8d9]/10 text-[#9eb8d9]"><LayoutDashboard className="h-4 w-4" /></div>
+                    <div>
+                      <div className="font-mono text-[10px] uppercase tracking-wider text-[#9eb8d9]">// Layout</div>
+                      <h3 className="text-sm font-display text-[#e8e6e1]">Diseño de la home y catálogo</h3>
+                    </div>
+                  </div>
+                  <div className="p-6 space-y-5">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                      {/* Home columns */}
+                      <div>
+                        <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">
+                          Columnas en shelves (home)
+                        </label>
+                        <div className="flex items-center gap-2">
+                          {[2, 3, 4, 5, 6].map(n => (
+                            <button key={n} onClick={() => setHomeColumns(n)}
+                              className={`flex-1 font-mono text-sm py-2 rounded-md border transition-colors ${
+                                homeColumns === n
+                                  ? 'bg-[#9eb8d9]/10 border-[#9eb8d9]/40 text-[#9eb8d9]'
+                                  : 'bg-[#06080c] border-white/[0.06] text-[#6b7080] hover:text-[#e8e6e1] hover:border-white/[0.10]'
+                              }`}>
+                              {n}
+                            </button>
+                          ))}
+                        </div>
+                        <p className="font-mono text-[10px] text-[#6b7080] mt-1.5">Recently Added, Hot, etc.</p>
+                      </div>
+
+                      {/* Home featured count */}
+                      <div>
+                        <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">
+                          Cantidad por shelf
+                        </label>
+                        <div className="flex items-center gap-2">
+                          {[4, 6, 8, 12, 16, 20].map(n => (
+                            <button key={n} onClick={() => setHomeFeaturedCount(n)}
+                              className={`flex-1 font-mono text-sm py-2 rounded-md border transition-colors ${
+                                homeFeaturedCount === n
+                                  ? 'bg-[#9eb8d9]/10 border-[#9eb8d9]/40 text-[#9eb8d9]'
+                                  : 'bg-[#06080c] border-white/[0.06] text-[#6b7080] hover:text-[#e8e6e1] hover:border-white/[0.10]'
+                              }`}>
+                              {n}
+                            </button>
+                          ))}
+                        </div>
+                        <p className="font-mono text-[10px] text-[#6b7080] mt-1.5">Productos por cada shelf</p>
+                      </div>
+
+                      {/* Catalog columns */}
+                      <div>
+                        <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6b7080] mb-2">
+                          Columnas en catálogo
+                        </label>
+                        <div className="flex items-center gap-2">
+                          {[2, 3, 4, 5, 6].map(n => (
+                            <button key={n} onClick={() => setCatalogColumns(n)}
+                              className={`flex-1 font-mono text-sm py-2 rounded-md border transition-colors ${
+                                catalogColumns === n
+                                  ? 'bg-[#9eb8d9]/10 border-[#9eb8d9]/40 text-[#9eb8d9]'
+                                  : 'bg-[#06080c] border-white/[0.06] text-[#6b7080] hover:text-[#e8e6e1] hover:border-white/[0.10]'
+                              }`}>
+                              {n}
+                            </button>
+                          ))}
+                        </div>
+                        <p className="font-mono text-[10px] text-[#6b7080] mt-1.5">Vista con búsqueda/filtros</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-3 border-t border-white/[0.04]">
+                      <p className="font-mono text-[10px] text-[#6b7080]">
+                        Los cambios se aplican al guardar y refrescar la home
+                      </p>
+                      <button onClick={handleSaveDesign} disabled={savingDesign}
+                        className="flex items-center gap-2 px-5 py-2 bg-[#9eb8d9] hover:bg-[#b5c7e0] disabled:bg-[#6b7080] text-[#08090c] text-sm font-mono font-semibold rounded-md transition-colors cursor-pointer disabled:cursor-not-allowed">
+                        {savingDesign ? 'Saving...' : 'Guardar diseño'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Quick add */}
                 <div className="bg-[#0a0e1a] rounded-xl border border-white/[0.04] overflow-hidden">
                   <div className="px-6 py-4 border-b border-white/[0.04] flex items-center gap-2.5">
